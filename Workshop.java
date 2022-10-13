@@ -18,30 +18,20 @@ public class Workshop {
     public static String CSV_FILE_NAME      = "tasks.csv";
 
     public static void main(String[] args) {
-        //wczytanie danych z pliku;
+        //wczytanie danych z pliku//
         String [][] tasksArr =  importCsvFile(CSV_FILE_NAME);
 
+        //wyświetlenie menu//
         showMenu(tasksArr);
-
-        //listTasks(tasksArr);
-
-        //add task
-        //tasksArr = addTask(tasksArr);
-
-        //saveTasksToCsvFile(tasksArr);
-
-        //remove task
-        //tasksArr = removeTasks(tasksArr);
-
-        //listTasks(tasksArr);
-
-        //saveTasksToCsvFile(tasksArr);
-
-
     }
+
+
+
     public static void showMenu(String[][] tasksArray) {
 
-        StringBuilder sb = new StringBuilder();
+        Scanner       scan = new Scanner(System.in);
+        StringBuilder sb   = new StringBuilder();
+        String input       = "";
 
         sb.append(pl.coderslab.ConsoleColors.BLUE).append(MENU_ITEM_TITLE).append("\n");
         sb.append(pl.coderslab.ConsoleColors.RESET).append(MENU_ITEM_ADD).append("\n");
@@ -51,16 +41,52 @@ public class Workshop {
 
         System.out.println(String.valueOf(sb));
 
+        while (scan.hasNextLine()) {
+            input = scan.nextLine();
 
+            switch (input) {
+                case "add":
+                    tasksArray = addTask(tasksArray);
+                    break;
 
+                case "remove":
+                    tasksArray = removeTasks(tasksArray);
+                    break;
 
+                case "list":
+                    listTasks(tasksArray);
+                    break;
 
+                case "exit":
+                    saveTasksToCsvFile(tasksArray);
+                    exitProgram();
+                    break;
 
+                case "a":
+                    tasksArray = addTask(tasksArray);
+                    break;
 
+                case "r":
+                    tasksArray = removeTasks(tasksArray);
+                    break;
 
+                case "l":
+                    listTasks(tasksArray);
+                    break;
 
+                case "e":
+                    saveTasksToCsvFile(tasksArray);
+                    exitProgram();
+                    break;
 
+                default:
+                    System.out.println("Unknown command");
+            }
+            System.out.println(String.valueOf(sb));
+        }
     }
+
+
     public static String[][] importCsvFile(String fileName) {
         Path csvPath            = Paths.get(fileName);
         File csvFile            = new File(fileName);
@@ -118,7 +144,9 @@ public class Workshop {
         System.out.println(String.valueOf(sb));
     }
     public static void exitProgram() {
-        System.out.println("Program Tasks terminated");
+        StringBuilder sb   = new StringBuilder();
+        sb.append(pl.coderslab.ConsoleColors.RED).append("Bye, bye.").append(pl.coderslab.ConsoleColors.RESET).append("\n");
+        System.out.println(sb);
         System.exit(0);
     }
     public static String[][] addTask(String [][] taskArray) {
@@ -189,7 +217,7 @@ public class Workshop {
             sb.append("\n");
         }
 
-        System.out.println(sb);
+        //System.out.println(sb);
 
         try {
             Files.writeString(csvPath, String.valueOf(sb));
